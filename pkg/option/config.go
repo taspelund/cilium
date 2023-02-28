@@ -2751,6 +2751,11 @@ func (c *DaemonConfig) Validate(vp *viper.Viper) error {
 		}
 	}
 
+	if c.EnableBGPControlPlane && (c.BGPAnnounceLBIP || c.BGPAnnouncePodCIDR || c.BGPConfigPath) {
+		return fmt.Errorf("option --%s cannot be used in combination with --%s, --%s, or --%s",
+			EnableBGPControlPlane, BGPAnnounceLBIP, BGPAnnouncePodCIDR, BGPConfigPath)
+	}
+
 	return nil
 }
 
